@@ -4,9 +4,9 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
-import { DollarSign, Clock, Star, Phone, Home, Printer } from 'lucide-react';
+import { DollarSign, Calendar, Clock, Star, Phone, Home, Printer } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
-
+// import { Tooltip as TooltipComponent } from "@nextui-org/tooltip"
 interface Client {
   id: number;
   name: string;
@@ -26,14 +26,20 @@ interface Client {
 export function ClientCard({ client }: { client: Client }) {
   const percentageHoursUsed = (client.hoursUsed / client.totalHours) * 100;
   const percentageCopiesUsed = (client.copiesUsed / client.totalCopies) * 100;
-  
+  const getPaidColor = () =>{
+    if (client.paymentStatus === 'Pagado') {
+      return 'w-4 h-4 mr-1 text-green-500';
+    } else {
+      return 'w-4 h-4 mr-1 text-red-500';
+    }    
+  }
   const getMembershipColor = () => {
     if (client.membershipType === 'Flex') {
       switch (client.flexSubcategory) {
-        case 'Basic': return 'text-blue-500';
-        case 'Starter': return 'text-green-500';
-        case 'Premium': return 'text-yellow-500';
-        case 'Business': return 'text-red-500';
+        case 'Basic': return 'text-sky-200';
+        case 'Starter': return 'text-sky-400';
+        case 'Premium': return 'text-indigo-400';
+        case 'Business': return 'text-violet-700';
         default: return 'text-red-500';
       }
     }
@@ -41,6 +47,7 @@ export function ClientCard({ client }: { client: Client }) {
       case 'My Office': return 'text-blue-500';
       case 'My Desk': return 'text-green-500';
       case 'Virtual': return 'text-yellow-500';
+      case 'Flex': return 'bg-teal-300';
       default: return 'text-red-500';
     }
   };
@@ -59,8 +66,19 @@ export function ClientCard({ client }: { client: Client }) {
         </div>
         <div className="grid grid-cols-2 gap-2 text-sm mb-3">
           <div className="flex items-center text-gray-600 dark:text-gray-300">
-            <DollarSign className="w-4 h-4 mr-1" />
-            <span>Día {client.paymentDay}</span>
+            
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <DollarSign className={getPaidColor()} />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>{client.paymentStatus}</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>                        
+            <Calendar className="w-4 h-4 mr-1" />
+            <span>{client.paymentDay}</span>
           </div>
           <TooltipProvider>
             <Tooltip>
@@ -78,11 +96,7 @@ export function ClientCard({ client }: { client: Client }) {
             </Tooltip>
           </TooltipProvider>
         </div>
-        {client.flexSubcategory && (
-          <div className="text-sm text-center mb-2">
-            <span className={`${membershipColor}`}>{client.flexSubcategory}</span>
-          </div>
-        )}
+
         <div className="space-y-2">
           <TooltipProvider>
             <Tooltip>
@@ -91,7 +105,8 @@ export function ClientCard({ client }: { client: Client }) {
                   <Clock className="w-4 h-4 mr-2" />
                   <Progress 
                     value={percentageHoursUsed} 
-                    className="h-2 flex-grow mx-2" 
+                    className="[&>*]:bg-indigo-500 h-2 flex-grow mx-2" 
+                    // indicatorColor="bg-indigo-500"
                     style={{
                       background: '#E5E7EB',
                     }}
@@ -114,7 +129,8 @@ export function ClientCard({ client }: { client: Client }) {
                   <Printer className="w-4 h-4 mr-2" />
                   <Progress 
                     value={percentageCopiesUsed} 
-                    className="h-2 flex-grow mx-2" 
+                    className="[&>*]:bg-fuchsia-400 h-2 flex-grow mx-2" 
+                    // indicatorColor="bg-fuchsia-400"
                     style={{
                       background: '#E5E7EB',
                     }}
@@ -131,9 +147,11 @@ export function ClientCard({ client }: { client: Client }) {
           </TooltipProvider>
         </div>
         <div className="mt-3 flex justify-between items-center text-xs text-gray-500 dark:text-gray-400">
-          <div className={`flex items-center font-medium ${membershipColor}`}>
+          <div className={`flex items-center font-medium`}>
             <Star className="w-3 h-3 mr-1" />
-            <span>{client.membershipType}</span>
+            <span className={client.membershipType==='Flex'?'text-amber-100':membershipColor}>{client.membershipType}</span>
+            {client.flexSubcategory && <span className="mx-1">-</span>}
+            <span className={`${membershipColor}`}>{client.flexSubcategory}</span>
           </div>
           <div className="flex space-x-2">
             <div className="flex items-center">
