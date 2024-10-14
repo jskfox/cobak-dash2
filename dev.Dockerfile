@@ -16,6 +16,8 @@ RUN \
   fi
 
 COPY src ./src
+COPY pages ./pages
+COPY app ./app
 COPY public ./public
 COPY next.config.js .
 COPY tsconfig.json .
