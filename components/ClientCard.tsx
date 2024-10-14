@@ -11,14 +11,14 @@ interface Client {
   id: number;
   name: string;
   avatar: string;
-  paymentDay: number;
+  paymentDay: string;
   membershipType: string;
   flexSubcategory?: string;
   hoursUsed: number;
   totalHours: number;
   copiesUsed: number;
   totalCopies: number;
-  paymentStatus: "Pagado" | "Pendiente";
+  paymentStatus: string;
   phoneExtension?: string;
   interiorNumber?: string;
 }
@@ -27,7 +27,7 @@ export function ClientCard({ client }: { client: Client }) {
   const percentageHoursUsed = (client.hoursUsed / client.totalHours) * 100;
   const percentageCopiesUsed = (client.copiesUsed / client.totalCopies) * 100;
   const getPaidColor = () =>{
-    if (client.paymentStatus === 'Pagado') {
+    if (client.paymentStatus === "Pagado") {
       return 'w-4 h-4 mr-1 text-green-500';
     } else {
       return 'w-4 h-4 mr-1 text-red-500';
@@ -62,7 +62,7 @@ export function ClientCard({ client }: { client: Client }) {
             <AvatarImage src={client.avatar} alt={client.name} />
             <AvatarFallback>{client.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
           </Avatar>
-          <h3 className="font-semibold text-lg text-red-700 dark:text-red-300 flex-grow">{client.name}</h3>
+          <h3 className="font-semibold text-lg text-orange-800 dark:text-orange-100	flex-grow">{client.name}</h3>
         </div>
         <div className="grid grid-cols-2 gap-2 text-sm mb-3">
           <div className="flex items-center text-gray-600 dark:text-gray-300">
@@ -80,21 +80,7 @@ export function ClientCard({ client }: { client: Client }) {
             <Calendar className="w-4 h-4 mr-1" />
             <span>{client.paymentDay}</span>
           </div>
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <div className="flex justify-end">
-                  <Badge 
-                    variant={client.paymentStatus === "Pagado" ? "success" : "destructive"}
-                    className="w-3 h-3 rounded-full"
-                  />
-                </div>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>{client.paymentStatus}</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+          
         </div>
 
         <div className="space-y-2">
