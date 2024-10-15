@@ -1,10 +1,11 @@
 "use client"
 
 import { useState, useMemo } from 'react';
-import { Card, CardContent } from "@/components/ui/card"
+//import { Card, CardContent } from "@/components/ui/card"
 import { MainMenu } from '@/components/MainMenu';
 import { ClientCard } from '@/components/ClientCard';
 import { mockClients } from '@/lib/mockData';
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 export default function Dashboard() {
   const [clients] = useState(mockClients);
@@ -14,12 +15,18 @@ export default function Dashboard() {
     if (activeTab === 'all') return clients;
     return clients.filter(client => client.membershipType.toLowerCase() === activeTab);
   }, [clients, activeTab]);
-
+  // Sort clients by membership type
+  const sortedClients = useMemo(() => {
+    return [...filteredClients].sort((a, b) => a.membershipType.localeCompare(b.membershipType));
+  }, [filteredClients]);
   return (
     <div className="flex h-screen bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-900 dark:to-black">
       <MainMenu />
       <div className="flex-1 p-6 overflow-auto">
-        <h1 className="text-2xl font-bold mb-6 text-red-700 dark:text-red-300">Clientes Importantes</h1>
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-2xl font-bold text-red-700 dark:text-red-300">Clientes Importantes</h1>
+          <ThemeToggle />
+        </div>
         <div className="flex space-x-2 mb-4">
           <button
             onClick={() => setActiveTab('all')}
@@ -52,8 +59,8 @@ export default function Dashboard() {
             Virtual
           </button>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {filteredClients.map((client) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+          {sortedClients.map((client) => (
             <ClientCard key={client.id} client={client} />
           ))}
         </div>

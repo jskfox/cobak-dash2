@@ -3,7 +3,6 @@
 import { Card, CardContent } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Badge } from "@/components/ui/badge"
 import { DollarSign, Calendar, Clock, Star, Phone, Home, Printer } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 // import { Tooltip as TooltipComponent } from "@nextui-org/tooltip"
@@ -135,7 +134,7 @@ export function ClientCard({ client }: { client: Client }) {
         <div className="mt-3 flex justify-between items-center text-xs text-gray-500 dark:text-gray-400">
           <div className={`flex items-center font-medium`}>
             <Star className="w-3 h-3 mr-1" />
-            <span className={client.membershipType==='Flex'?'text-amber-100':membershipColor}>{client.membershipType}</span>
+            <span className={client.membershipType==='Flex'?'text-lime-700':membershipColor}>{client.membershipType}</span>
             {client.flexSubcategory && <span className="mx-1">-</span>}
             <span className={`${membershipColor}`}>{client.flexSubcategory}</span>
           </div>
