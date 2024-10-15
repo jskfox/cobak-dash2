@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useMemo } from 'react';
-//import { Card, CardContent } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import { MainMenu } from '@/components/MainMenu';
 import { ClientCard } from '@/components/ClientCard';
 import { mockClients } from '@/lib/mockData';
@@ -15,10 +15,12 @@ export default function Dashboard() {
     if (activeTab === 'all') return clients;
     return clients.filter(client => client.membershipType.toLowerCase() === activeTab);
   }, [clients, activeTab]);
+
   // Sort clients by membership type
   const sortedClients = useMemo(() => {
     return [...filteredClients].sort((a, b) => a.membershipType.localeCompare(b.membershipType));
   }, [filteredClients]);
+
   return (
     <div className="flex h-screen bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-900 dark:to-black">
       <MainMenu />

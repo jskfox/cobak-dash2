@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Users, BarChart2, Settings } from 'lucide-react';
+import { Home, Users, BarChart2, Settings, Calendar } from 'lucide-react';
 import { cn } from "@/lib/utils";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 
@@ -12,6 +12,7 @@ export function MainMenu() {
   const menuItems = [
     { href: '/', icon: Home, label: 'Inicio' },
     { href: '/estadisticas', icon: BarChart2, label: 'Estadísticas' },
+    { href: '/reservaciones', icon: Calendar, label: 'Reservaciones' },
     { href: '/configuracion', icon: Settings, label: 'Configuración' },
   ];
 
