@@ -120,3 +120,23 @@
 .rbc-button-link {
   @apply text-red-600 dark:text-red-400 font-semibold;
 }
+
+/* Estilos para el menú lateral */
+@media (max-width: 1024px) {
+  body:not(.menu-open) nav {
+    display: none;
+  }
+}
+
+/* Transición suave para el menú */
+nav {
+  transition: transform 0.3s ease-in-out;
+}
+
+body:not(.menu-open) nav {
+  transform: translateX(-100%);
+}
+
+body.menu-open nav {
+  transform: translateX(0);
+}

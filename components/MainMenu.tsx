@@ -1,5 +1,6 @@
 "use client"
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Home, Users, BarChart2, Settings, Calendar } from 'lucide-react';
@@ -8,6 +9,30 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 
 export function MainMenu() {
   const pathname = usePathname();
+  const [isOpen, setIsOpen] = useState(true);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsOpen(window.innerWidth > 1024);
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize();
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => {
+    const body = document.body;
+    const toggleMenu = () => {
+      setIsOpen(body.classList.contains('menu-open'));
+    };
+
+    const observer = new MutationObserver(toggleMenu);
+    observer.observe(body, { attributes: true, attributeFilter: ['class'] });
+
+    return () => observer.disconnect();
+  }, []);
 
   const menuItems = [
     { href: '/', icon: Home, label: 'Inicio' },
@@ -16,8 +41,10 @@ export function MainMenu() {
     { href: '/configuracion', icon: Settings, label: 'Configuración' },
   ];
 
+  if (!isOpen) return null;
+
   return (
-    <nav className="bg-white dark:bg-gray-900 p-2 flex flex-col items-center space-y-4 h-screen shadow-lg">
+    <nav className="bg-white dark:bg-gray-800 p-2 flex flex-col items-center space-y-4 h-screen shadow-lg">
       <div className="bg-red-600 text-white p-2 rounded-full mb-4">
         <Users className="h-6 w-6" />
       </div>
