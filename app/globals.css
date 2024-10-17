@@ -137,6 +137,7 @@ body:not(.menu-open) nav {
   transform: translateX(-100%);
 }
 
-body.menu-open nav {
+body.menu-open nav {  
   transform: translateX(0);
+  display: flex;
 }

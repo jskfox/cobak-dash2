@@ -44,7 +44,7 @@ export function MainMenu() {
   if (!isOpen) return null;
 
   return (
-    <nav className="bg-white dark:bg-gray-800 p-2 flex flex-col items-center space-y-4 h-screen shadow-lg">
+    <nav className="bg-white dark:bg-gray-800 p-2 hidden flex-col items-center space-y-4 h-screen shadow-lg ">
       <div className="bg-red-600 text-white p-2 rounded-full mb-4">
         <Users className="h-6 w-6" />
       </div>
